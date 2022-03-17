@@ -1,8 +1,12 @@
 from dash import Dash, dcc, html, Input, Output
+import os
 import plotly.express as px
 from coinpaprika import client as Coinpaprika
 
-app = Dash(__name__)
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+app = Dash(__name__, external_stylesheets=external_stylesheets)
+
 server = app.server
 
 client = Coinpaprika.Client()
@@ -19,3 +23,4 @@ if __name__ == '__main__':
 
 
 # app.run_server(debug=True)
+
