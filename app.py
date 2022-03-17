@@ -1,26 +1,21 @@
 from dash import Dash, dcc, html, Input, Output
-import os
+import plotly.express as px
+from coinpaprika import client as Coinpaprika
 
+app = Dash(__name__)
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = Dash(__name__, external_stylesheets=external_stylesheets)
-
-server = app.server
-
+client = Coinpaprika.Client()
+df = client.historical("btc-bitcoin", start="2021-07-06T00:00:00Z")
+#df = px.data.stocks()
+#print(df)
+fig = px.line(df, x='timestamp', y="price")
 app.layout = html.Div([
-    html.H2('Hello World'),
-    dcc.Dropdown(['LA', 'NYC', 'MTL'],
-        'LA',
-        id='dropdown'
-    ),
-    html.Div(id='display-value')
+    html.H4('GOOGLE stock prices'),
+    dcc.Graph(id="graph", figure=fig),
 ])
 
-@app.callback(Output('display-value', 'children'),
-                [Input('dropdown', 'value')])
-def display_value(value):
-    return f'You have selected {value}'
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+    
+
+
+app.run_server(debug=True)
